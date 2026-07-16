@@ -1,13 +1,12 @@
 import { CatalogPanel } from '@expedite-commerce/next-gen-composable'
-import { createSalesforceCatalogService } from '@expedite-commerce/next-gen-composable/salesforce'
+import { createHttpCatalogService } from '@expedite-commerce/next-gen-composable/http'
 import '@expedite-commerce/next-gen-composable/styles.css'
-import { getBaseUrl, tokenProvider } from '../lib/sfSession'
 import { APP_CONTEXT } from '../lib/appContext'
 import { useCart } from '../cart/CartContext'
 
-// The whole Salesforce wiring: baseUrl + token. SOQL, schema mapping, and
-// transport live inside the package's /salesforce adapter.
-const service = createSalesforceCatalogService({ baseUrl: getBaseUrl, tokenProvider })
+// All catalog ops go through the same-origin /api/catalog BFF (the package's
+// own server handler) — the browser never talks to Salesforce or holds a token.
+const service = createHttpCatalogService()
 
 export default function Products() {
   const cart = useCart()

@@ -15,3 +15,13 @@ export interface CatalogService {
     /** Category facets for the filter bar. */
     listCategories(context: RuntimeContext): Promise<ListCategoriesResult>;
 }
+/**
+ * Wire protocol for CatalogService calls that cross a transport seam — shared
+ * by the executor adapter and the ./http client on one side, and any
+ * server-side handler (e.g. createSalesforceCatalogHandler) on the other.
+ */
+export declare const CATALOG_EXECUTOR_METHODS: {
+    readonly searchProducts: "platform/catalog:search";
+    readonly getProduct: "platform/catalog:get";
+    readonly listCategories: "platform/catalog:listCategories";
+};

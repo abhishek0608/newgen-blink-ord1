@@ -16,6 +16,8 @@ dist-ssr
 # without the out-of-repo local dependency. Re-included despite `dist` above.
 !vendor/next-gen-composable/dist
 !vendor/next-gen-composable/dist/**
+!vendor/composable-cart/dist
+!vendor/composable-cart/dist/**
 
 # Environment files (secrets — never commit)
 .env

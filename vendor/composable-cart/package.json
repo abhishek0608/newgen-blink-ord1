@@ -1,7 +1,7 @@
 {
-  "name": "@expedite-commerce/next-gen-composable",
+  "name": "@expedite-commerce/composable-cart",
   "version": "0.1.0",
-  "description": "Foundry-30846 — reusable address entry + validation composable (ship-to / bill-to / install)",
+  "description": "Reusable cart management composable (lines / quantities / promo code) — sibling of composable-address (Foundry-30846)",
   "type": "module",
   "files": [
     "dist"
@@ -11,18 +11,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./salesforce": {
-      "types": "./dist/salesforce/index.d.ts",
-      "import": "./dist/salesforce.js"
-    },
-    "./http": {
-      "types": "./dist/http/index.d.ts",
-      "import": "./dist/http.js"
-    },
     "./styles.css": "./dist/styles.css"
   },
   "scripts": {
-    "dev": "vite --port 5199 --strictPort",
+    "dev": "vite --port 5198 --strictPort",
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
     "build": "vite build && tsc -p tsconfig.lib.json && cp src/react-ui/styles.css dist/styles.css"

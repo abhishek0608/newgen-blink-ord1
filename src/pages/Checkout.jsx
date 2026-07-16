@@ -6,7 +6,8 @@ import { getBaseUrl, tokenProvider } from '../lib/sfSession'
 import { APP_CONTEXT } from '../lib/appContext'
 import { useCart } from '../cart/CartContext'
 
-const fmt = (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+// Cart money is minor units (cents), per the cart composable's CartDTO.
+const fmt = (cents) => (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
 
 // Address composable, Salesforce-backed: saved addresses come from the
 // signed-in account's Billing/Shipping fields; typeahead degrades to manual
@@ -48,18 +49,32 @@ export default function Checkout() {
       <aside style={{ flex: 1, border: '1px solid #e5e7eb', borderRadius: 8, padding: 20, height: 'fit-content' }}>
         <h3 style={{ marginTop: 0 }}>Order summary</h3>
         {cart.lines.length === 0 && <p>Cart is empty.</p>}
-        {cart.lines.map(({ product, quantity }) => (
-          <div key={product.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+        {cart.lines.map((line) => (
+          <div key={line.id} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
             <span>
-              {quantity} × {product.name}
+              {line.quantity} × {line.name}
             </span>
-            <span>{fmt(product.price * quantity)}</span>
+            <span>{fmt(line.unitPrice * line.quantity)}</span>
           </div>
         ))}
         <hr style={{ border: 'none', borderTop: '1px solid #e5e7eb' }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span>Subtotal</span>
+          <span>{fmt(cart.totals.subtotal)}</span>
+        </div>
+        {cart.totals.discount > 0 && (
+          <div style={{ display: 'flex', justifyContent: 'space-between', color: '#15803d' }}>
+            <span>Discount{cart.cart?.promoCode ? ` (${cart.cart.promoCode})` : ''}</span>
+            <span>−{fmt(cart.totals.discount)}</span>
+          </div>
+        )}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <span>Tax</span>
+          <span>{fmt(cart.totals.tax)}</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, marginTop: 4 }}>
           <span>Total</span>
-          <span>{fmt(cart.total)}</span>
+          <span>{fmt(cart.totals.total)}</span>
         </div>
         <button
           disabled={!shipping || cart.lines.length === 0}

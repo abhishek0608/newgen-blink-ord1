@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 // exposes the same /api/* routes as the deployed app.
 function apiRoutes() {
   const routes = {
+    '/api/catalog': () => import('./api/catalog.js'),
     '/api/salesforce/connection': () => import('./api/salesforce/connection.js'),
     '/api/salesforce/query': () => import('./api/salesforce/query.js'),
     '/api/salesforce/sobject': () => import('./api/salesforce/sobject.js'),
