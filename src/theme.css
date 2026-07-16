@@ -1,0 +1,152 @@
+
+                /* Theme Styles Start */ /* Synced Fonts Start ["Arial","Arial Black","Comic Sans MS","Courier New","Helvetica Neue","Helvetica","Impact","Lucida Grande","Montserrat","Roboto","Tahoma","Times New Roman","Titillium Web","Verdana"] Synced Fonts End */ /* Shadow Start {"background":"#000000","opacity":"05%","shadow":{"x":"0","y":"0","blur":"10","spread":"5"}} Shadow End */ .ectheme .esg-pcolor-bg { background-color: #57c046; } .ectheme .esg-pcolor-bd { border-color: #57c046; } .ectheme .esg-pcolor-fc { color: #57c046; } .ectheme .esg-pcolor-fc:hover { color: #754826; } .ectheme .esg-pcolor-svg { stroke: #57c046; } .ectheme .esg-btn-primary { background: #d18245; } .ectheme .esg-pcolor-svg { fill: #57c046; } .ectheme .esg-h-lvl1:after { background: #57c046; } .ectheme .pagination > li:not(.active) > a { color: #57c046; } /* .ectheme .productbadge .badge { background: #57c046; } */ .ectheme div.leftsidecat .list-group-item .badge { background: #57c046; } .ectheme .pagination > .active > a { background-color: #57c046; border-color: #57c046; } .ectheme .esg-btn-primary:hover { background-color: #1c8d0a; } .ectheme .esg-btn-primary:focus { background-color: #1c8d0a; } .ectheme .esg-primary-hover-bg { background-color: #1c8d0a; } .ectheme .esg-primary-hover-bd { border-color: #1c8d0a; } .ectheme .esg-primary-hover-fc { color: #1c8d0a; } .ectheme .esg-faded-bg { background: rgba(28, 141, 10, 0.6); } .ectheme .esg-faded-bd { border-color: rgba(28, 141, 10, 0.6); } .ectheme .esg-faded-fc { color: rgba(28, 141, 10, 0.6); } .ectheme .esg-btn-faded { background: rgba(28, 141, 10, 0.6); } .ectheme .esg-scolor-bg { background: #acacac; } .ectheme .esg-scolor-fc { color: #acacac; } .ectheme .esg-scolor-fc:hover { color: #5f5f5f; } .ectheme .esg-btn-secondary { background: #acacac; } .ectheme .esg-table-basic thead { border-bottom-color: #dbdbdb; } .ectheme .esg-btn-secondary:hover { background: #5f5f5f; } .ectheme .ecb-text-small { font-family: Roboto; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none; color: #acacac; line-height: Normal; } /* Regular Text */ .ectheme p { font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; } .ectheme .ecb-text-regular { font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; } .ectheme { font-family: Roboto; font-size: 14px; font-weight: normal; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; } /* End Regular Text */ .ectheme .ecb-text-large { font-family: Roboto; font-size: 16px; font-weight: normal; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; } .ectheme .ecb-text-strong { font-family: Roboto; font-size: 16px; font-weight: bold; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; } .ectheme h1, .ectheme .ecb-header-lvl-1 { font-family: Montserrat; font-size: 32px; font-weight: bold; font-style: normal; text-decoration: none; color: #000; line-height: Normal; } .ectheme h2, .ectheme .ecb-header-lvl-2 { font-family: Montserrat; font-size: 24px; font-weight: bold; font-style: normal; text-decoration: none; color: #000; line-height: Normal; } .ectheme h3, .ectheme .ecb-header-lvl-3 { font-family: Montserrat; font-size: 18px; font-weight: bold; font-style: normal; text-decoration: none; color: #000; line-height: Normal; } .ectheme h4, .ectheme .ecb-header-lvl-4 { font-family: Montserrat; font-size: 16px; font-weight: bold; font-style: normal; text-decoration: none; color: #000; line-height: Normal; } .ectheme h5, .ectheme .ecb-header-lvl-5 { font-family: Montserrat; font-size: 14px; font-weight: bold; font-style: normal; text-decoration: none; color: #000; line-height: Normal; } .ectheme h6, .ectheme .ecb-header-lvl-6 { font-family: Montserrat; font-size: 13px; font-weight: bold; font-style: normal; text-decoration: none; color: #000; line-height: Normal; } .ectheme a, .ectheme .authenticator_view .amplify-button--link { font-family: Roboto; font-size: 13px; font-weight: normal; font-style: normal; text-decoration: underline; color: #57c046; line-height: Normal; } .ectheme a:hover, .ectheme .authenticator_view .amplify-button--link:hover { font-family: Roboto; font-size: 13px; font-weight: normal; font-style: normal; text-decoration: underline; color: #1c8d0a; line-height: Normal; } .ectheme .esg-pbutton, .ectheme .esg-btn-primary, .ectheme .authenticator_view .amplify-button--primary { font-family: Montserrat; font-size: 12px; font-weight: bold; font-style: normal; text-decoration: none; color: #ffffff; line-height: Normal; border-style: solid; border-color: #57c046; border-width: 0px; border-radius: 4px; padding: 10px 20px 10px 20px; background-color: #d18245; ; } .ectheme .esg-pbutton:hover, .ectheme .esg-btn-primary:hover, .ectheme .authenticator_view .amplify-button--primary:hover { font-family: Montserrat; font-size: 10px; font-weight: normal; font-style: normal; text-decoration: none; color: #ffffff; line-height: Normal; border-style: solid; border-color: #1c8d0a; border-width: 0px; border-radius: 4px; padding: 10px 20px 10px 20px; background-color: #1c8d0a; ; } .ectheme .esg-sbutton, .ectheme .esg-btn-secondary { font-family: Montserrat; font-size: 10px; font-weight: bold; font-style: normal; text-decoration: none; color: #ffffff; line-height: Normal; border-style: solid; border-color: #acacac; border-width: 0px; border-radius: 4px; padding: 10px 20px 10px 20px; background-color: #acacac; ; } .ectheme .esg-sbutton:hover, .ectheme .esg-btn-secondary:hover { font-family: Montserrat; font-size: 12px; font-weight: normal; font-style: normal; text-decoration: none; color: #ffffff; line-height: Normal; border-style: solid; border-color: #5f5f5f; border-width: 0px; border-radius: 4px; padding: 10px 20px 10px 20px; background-color: #5f5f5f; ; } .ectheme .esg-btn-error, .ectheme .esg-btn-error.rectangle-button { font-family: Montserrat; font-size: 12px; font-weight: bold; font-style: normal; text-decoration: none; color: #ffffff; line-height: Normal; border-style: solid; border-color: #57c046; border-width: 0px; border-radius: 4px; padding: 10px 20px 10px 20px; ; background-color: #ff6a6a; } .ectheme .esg-btn-error:hover, .ectheme .esg-btn-error:focus, .ectheme .esg-btn-error.rectangle-button:hover, .ectheme .esg-btn-error.rectangle-button:focus{ font-family: Montserrat; font-size: 10px; font-weight: normal; font-style: normal; text-decoration: none; color: #ffffff; line-height: Normal; border-style: solid; border-color: #1c8d0a; border-width: 0px; border-radius: 4px; padding: 10px 20px 10px 20px; ; background-color: #d23333; } .ectheme .ectheme-input-label { font-family: Roboto; font-size: 13px; font-weight: bold; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; } .ectheme .ectheme-input-label:hover { font-family: Roboto; font-size: 13px; font-weight: bold; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; } .ectheme .ectheme-input-box { font-family: Roboto; font-size: 13px; font-weight: normal; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; border-style: solid; border-color: #dbdbdb; border-width: 1px; border-radius: 0px; padding: 10px 20px 10px 20px; background-color: #ffffff; } .ectheme .search .ectheme-input-box { font-family: Roboto; font-size: 13px; font-weight: normal; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; border-style: solid; border-color: #dbdbdb; border-width: 1px; border-radius: 0px; padding: 10px 20px 10px 20px; background-color: #ffffff; } .ectheme .ectheme-input-box:hover, .ectheme .ectheme-input-box:focus { font-family: Roboto; font-size: 13px; font-weight: normal; font-style: normal; text-decoration: none; color: #5f5f5f; line-height: Normal; border-style: solid; border-color: #bababa; border-width: 1px; border-radius: 0px; padding: 10px 20px 10px 20px; background-color: #ffffff; } .ectheme table tbody tr { border-style: solid; border-color: #dbdbdb; border-bottom-width : 1px; } /* enhance list */ .ectheme .mobile-record-seprator{ border-top-color: #57c046 !important; } .ectheme table .Mobile-Table td { border-style: solid; border-color: #dbdbdb; border-bottom-width : 1px; } .ectheme .ecb-theme-card { background-color: rgba(255, 255, 255, 1); border-style: solid; border-color: #dbdbdb; border-width: 1px; border-radius: 3px; box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 05%); } .ectheme .ecb-theme-card:hover { background-color: rgba(255, 255, 255, 1); border-style: solid; border-color: #dbdbdb; border-width: 1px; border-radius: 3px; box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 05%); } /* Theme Styles End */ /* Make Payment Screen */ .ectheme .ec-payment-page .esg-table-basic thead{ border-color: #acacac !important; } .ec-payment-page .button-square i { color: #d18245 } .ec-payment-page .radio-boxes__input:checked+.radio-boxes__head, .radio-boxes__input:checked+label.radio-boxes__head { border-color: #d18245; background: rgba(209, 130, 69, 0.5); } .ec-payment-page .radio-boxes__input:checked~.radio-boxes__content, .ec-payment-page .button-square:hover { border-color: #d18245; } .ec-payment-page button.link--green { color: #57c046 } .ec-payment-page button.link--green:hover { color: #1c8d0a }
+                /*startcustom*/
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+
+.border {
+  border: 1px solid rgb(221 221 221);
+  border-radius: 2px;
+  padding: 10px;
+}
+
+#a-ec-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+#a-ec-table td,
+#a-ec-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#a-ec-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+#a-ec-table tr:hover {
+  background-color: #ddd;
+}
+#a-ec-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #57c046;
+  color: white;
+}
+.ectheme .esg {
+  border-radius: 1px;
+  background-color: #e6e6e6;
+  border: 5px solid;
+  border-color: #e6e6e6;
+  font-weight: bold;
+}
+esg-subtotal {
+  border-radius: 1px;
+  background-color: #f2f2f2;
+  border: 5px solid;
+  border-color: #f2f2f2;
+}
+.esg-footer {
+  border-radius: 1px;
+  background-color: #f2f2f2;
+  border: 5px solid;
+  border-color: #f2f2f2;
+}
+
+.esg-container {
+  border: 1px;
+}
+
+
+
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                /*endcustom*/
+            

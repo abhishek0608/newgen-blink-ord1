@@ -1,113 +1,133 @@
-import { NavLink, Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import Logo from './Logo.jsx'
 
 const links = [
-  { to: '/', label: 'Home' },
-  { to: '/products', label: 'Products' },
-  { to: '/ai-help', label: 'AI Help' },
-  { to: '/test', label: 'Test', plain: true },
-  { to: '/offers', label: 'Offers' },
+  { to: '/', label: 'HOME' },
+  { to: '/products', label: 'PRODUCTS' },
 ]
 
-export default function Navbar() {
+export default function Navbar({ onLogout }) {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [showMenu, setShowMenu] = useState(false)
+
+  useEffect(() => {
+    setShowMenu(false)
+  }, [location.pathname])
+
+  function handleLogout() {
+    setShowMenu(false)
+    onLogout()
+    navigate('/login')
+  }
+
   return (
-    <header className="navbar">
-      <Link to="/">
-        <Logo />
-      </Link>
-
-      <nav className="nav-links">
-        {links.map(({ to, label, plain }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === '/'}
-            className={({ isActive }) =>
-              `nav-link${plain ? ' plain' : ''}${isActive ? ' active' : ''}`
-            }
-          >
-            {label}
-          </NavLink>
-        ))}
-      </nav>
-
-      <div className="nav-spacer" />
-
-      <div className="nav-search">
-        <select defaultValue="all" aria-label="Search category">
-          <option value="all">All</option>
-        </select>
-        <input type="text" placeholder="Search..." aria-label="Search" />
-        <button type="button" className="search-btn" aria-label="Search">
-          <SearchIcon />
-        </button>
+    <nav className="ec-navbar">
+      <div className="navbar-brand">
+        <Link to="/">
+          <Logo height={30} />
+        </Link>
       </div>
 
-      <div className="nav-actions">
-        <button type="button" className="icon-btn" aria-label="Cart">
-          <CartIcon />
-        </button>
-        <button type="button" className="icon-btn" aria-label="Notifications">
-          <BellIcon />
-        </button>
-        <div className="avatar">SA</div>
-        <div className="account-switcher">
-          <div className="labels">
-            <span className="caption">Current Account</span>
-            <span className="name">Ari Standard</span>
+      <div className="nav-collapse">
+        <ul className="nav-left">
+          {links.map(({ to, label }) => (
+            <li key={to}>
+              <NavLink
+                to={to}
+                end={to === '/'}
+                className={({ isActive }) => (isActive ? 'active' : '')}
+              >
+                {label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+
+        <div className="nav-search-wrap">
+          <div className="nav-search-group">
+            <div className="nav-search-dd">
+              <select defaultValue="All" aria-label="Search category">
+                <option value="All">All</option>
+              </select>
+            </div>
+            <div className="nav-search-box">
+              <input
+                type="search"
+                placeholder="Search..."
+                aria-label="Search"
+              />
+              <span className="material-symbols-outlined search-icon">
+                search
+              </span>
+            </div>
           </div>
-          <CaretIcon />
         </div>
-        <button type="button" className="icon-btn" aria-label="Menu">
-          <MenuIcon />
-        </button>
+
+        <ul className="nav-right">
+          <li className="nav-icon-item">
+            <Link to="/cart" className="nav-icon-link" aria-label="Cart">
+              <span className="material-symbols-outlined">shopping_cart</span>
+            </Link>
+          </li>
+          <li className="nav-icon-item">
+            <a className="nav-icon-link" aria-label="Notifications">
+              <span className="material-symbols-outlined">notifications</span>
+            </a>
+          </li>
+          <li className="accli" onMouseLeave={() => setShowMenu(false)}>
+            <div
+              className={`ec-acc-wrapper${showMenu ? ' active' : ''}`}
+              onClick={() => setShowMenu(!showMenu)}
+            >
+              <div className="ec-acc-btn">
+                <div className="ec-acc-userphoto">
+                  <span className="esg-pcolor-fc-small">SA</span>
+                </div>
+              </div>
+              <div className="ec-acc-accountnamewrapper">
+                <div className="ec-acc-accountname">
+                  <div>
+                    <p>Current Account</p>
+                    <label>Ari Standard</label>
+                  </div>
+                  <i className="material-symbols-outlined">arrow_drop_down</i>
+                </div>
+                <div className="ec-acc-dropdown">
+                  <div className="ec-acc-dcontent">
+                    <div className="ec-acc-userblock">
+                      <div className="ec-acc-userphoto-full">
+                        <span className="esg-pcolor-fc">SA</span>
+                      </div>
+                      <div className="h5">Shek Agrawal</div>
+                      <div className="h6">Ari Standard</div>
+                    </div>
+                    <div className="ec-acc-linkblock">
+                      <a onClick={(e) => e.stopPropagation()}>
+                        Switch Accounts
+                      </a>
+                      <a
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleLogout()
+                        }}
+                      >
+                        Logout
+                      </a>
+                    </div>
+                  </div>
+                  <div className="ec-acc-dcontent">
+                    <a>My Profile</a>
+                    <a>Orders</a>
+                    <a>Manage Users</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
-    </header>
-  )
-}
-
-function SearchIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="11" cy="11" r="7" />
-      <line x1="21" y1="21" x2="16.5" y2="16.5" />
-    </svg>
-  )
-}
-
-function CartIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <circle cx="9" cy="20" r="1.5" />
-      <circle cx="18" cy="20" r="1.5" />
-      <path d="M2 3h3l2.6 12.5a1 1 0 0 0 1 .8h9.7a1 1 0 0 0 1-.8L21 7H6" />
-    </svg>
-  )
-}
-
-function BellIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7.5-2.5 7.5h17S18 15 18 9" />
-      <path d="M10.3 20a2 2 0 0 0 3.4 0" />
-    </svg>
-  )
-}
-
-function CaretIcon() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M7 10l5 5 5-5z" />
-    </svg>
-  )
-}
-
-function MenuIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
+    </nav>
   )
 }
