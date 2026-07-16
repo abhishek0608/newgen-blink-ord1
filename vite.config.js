@@ -7,6 +7,9 @@ function apiRoutes() {
   const routes = {
     '/api/salesforce/connection': () => import('./api/salesforce/connection.js'),
     '/api/salesforce/query': () => import('./api/salesforce/query.js'),
+    '/api/salesforce/sobject': () => import('./api/salesforce/sobject.js'),
+    '/api/salesforce/apex': () => import('./api/salesforce/apex.js'),
+    '/api/salesforce/token': () => import('./api/salesforce/token.js'),
   }
   return {
     name: 'local-api-routes',

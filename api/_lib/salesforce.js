@@ -67,8 +67,65 @@ export function sfQuery(soql) {
   return sfRequest(`/services/data/${API_VERSION}/query?q=${encodeURIComponent(soql)}`)
 }
 
+// Follows nextRecordsUrl until all pages are fetched. Use for result sets
+// that may exceed the ~2000-record page limit.
+export async function sfQueryAll(soql) {
+  let page = await sfQuery(soql)
+  const records = [...page.records]
+  while (!page.done && page.nextRecordsUrl) {
+    page = await sfRequest(page.nextRecordsUrl)
+    records.push(...page.records)
+  }
+  return { totalSize: records.length, done: true, records }
+}
+
+export function sfCreate(type, fields) {
+  return sfRequest(`/services/data/${API_VERSION}/sobjects/${type}`, {
+    method: 'POST',
+    body: JSON.stringify(fields),
+  })
+}
+
+export function sfRetrieve(type, id, fields) {
+  const qs = fields?.length ? `?fields=${encodeURIComponent(fields.join(','))}` : ''
+  return sfRequest(`/services/data/${API_VERSION}/sobjects/${type}/${id}${qs}`)
+}
+
+export function sfUpdate(type, id, fields) {
+  return sfRequest(`/services/data/${API_VERSION}/sobjects/${type}/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(fields),
+  })
+}
+
+export function sfDelete(type, id) {
+  return sfRequest(`/services/data/${API_VERSION}/sobjects/${type}/${id}`, {
+    method: 'DELETE',
+  })
+}
+
+export function sfDescribe(type) {
+  return sfRequest(`/services/data/${API_VERSION}/sobjects/${type}/describe`)
+}
+
+// Call a custom Apex REST endpoint (@RestResource). path is what follows
+// /services/apexrest, e.g. sfApex('GET', '/MyService/123')
+export function sfApex(method, path, body) {
+  return sfRequest(`/services/apexrest${path}`, {
+    method,
+    ...(body !== undefined && { body: JSON.stringify(body) }),
+  })
+}
+
 export function sendJson(res, status, body) {
   res.statusCode = status
   res.setHeader('Content-Type', 'application/json')
   res.end(JSON.stringify(body))
+}
+
+export async function readJsonBody(req) {
+  if (req.body) return typeof req.body === 'string' ? JSON.parse(req.body) : req.body
+  let raw = ''
+  for await (const chunk of req) raw += chunk
+  return raw ? JSON.parse(raw) : {}
 }
