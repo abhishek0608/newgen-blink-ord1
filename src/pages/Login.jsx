@@ -4,8 +4,8 @@ import Logo from '../components/Logo.jsx'
 
 export default function Login({ onLogin }) {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('demo@newgen.com')
+  const [password, setPassword] = useState('demo123')
 
   function handleSubmit(e) {
     e.preventDefault()
