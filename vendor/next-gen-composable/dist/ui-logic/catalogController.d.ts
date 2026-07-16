@@ -37,12 +37,18 @@ export interface CatalogControllerOptions extends CatalogControllerCallbacks {
     context: RuntimeContext;
     debounceMs?: number;
     pageSize?: number;
+    /**
+     * Whether `init()` fetches category facets. Defaults to `true` for headless
+     * consumers that render a category filter. UIs with no category control
+     * (e.g. the search-only CatalogPanel) pass `false` to skip the round-trip.
+     */
+    loadCategories?: boolean;
 }
 export interface CatalogController {
     getState(): CatalogControllerState;
     subscribe(listener: () => void): () => void;
     setCallbacks(callbacks: CatalogControllerCallbacks): void;
-    /** Loads category facets and the first page. */
+    /** Loads the first page, plus category facets unless `loadCategories` is false. */
     init(): Promise<void>;
     setQuery(text: string): void;
     setCategory(categoryId: string | null): void;

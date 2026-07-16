@@ -1,27 +1,24 @@
-import { CatalogPanel, createExecutorCatalogService } from '@expedite-commerce/next-gen-composable'
+import { CatalogPanel } from '@expedite-commerce/next-gen-composable'
+import { createSalesforceCatalogService } from '@expedite-commerce/next-gen-composable/salesforce'
 import '@expedite-commerce/next-gen-composable/styles.css'
-import { createSalesforceCatalogExecutor } from '../lib/salesforceCatalogExecutor'
+import { getBaseUrl, tokenProvider } from '../lib/sfSession'
+import { APP_CONTEXT } from '../lib/appContext'
+import { useCart } from '../cart/CartContext'
 
-// Host wiring: the executor gets { baseUrl, token } from the gateway's token
-// endpoint and calls Salesforce directly; the composable only sees DTOs.
-const service = createExecutorCatalogService(createSalesforceCatalogExecutor())
-
-const context = {
-  runtime: 'custom',
-  identity: { organizationId: 'ec-ord1-dev-ed' },
-  session: { origin: 'REACT_STOREFRONT' },
-}
+// The whole Salesforce wiring: baseUrl + token. SOQL, schema mapping, and
+// transport live inside the package's /salesforce adapter.
+const service = createSalesforceCatalogService({ baseUrl: getBaseUrl, tokenProvider })
 
 export default function Products() {
+  const cart = useCart()
   return (
     <div className="page">
       <CatalogPanel
-        context={context}
+        context={APP_CONTEXT}
         service={service}
         title="Products"
         pageSize={6}
-        onProductSelected={(product) => console.log('selected', product)}
-        onAddToCart={(product, quantity) => console.log('add to cart', quantity, product)}
+        onAddToCart={(product, quantity) => cart.add(product, quantity)}
       />
     </div>
   )

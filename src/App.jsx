@@ -4,6 +4,9 @@ import Navbar from './components/Navbar.jsx'
 import Login from './pages/Login.jsx'
 import Home from './pages/Home.jsx'
 import Products from './pages/Products.jsx'
+import Cart from './pages/Cart.jsx'
+import Checkout from './pages/Checkout.jsx'
+import { CartProvider } from './cart/CartContext.jsx'
 
 function AppLayout({ isLoggedIn, onLogout }) {
   if (!isLoggedIn) return <Navigate to="/login" replace />
@@ -31,15 +34,19 @@ export default function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/login" element={<Login onLogin={handleLogin} />} />
-      <Route
-        element={<AppLayout isLoggedIn={isLoggedIn} onLogout={handleLogout} />}
-      >
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <CartProvider>
+      <Routes>
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route
+          element={<AppLayout isLoggedIn={isLoggedIn} onLogout={handleLogout} />}
+        >
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </CartProvider>
   )
 }
