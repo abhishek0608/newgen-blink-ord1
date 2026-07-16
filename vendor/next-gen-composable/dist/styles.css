@@ -1,0 +1,859 @@
+/* Class-scoped tokens — no Shadow DOM (settled decision). Default values
+   reproduce the blink checkout look (AtomDetailSection / AtomInputCustom /
+   AtomRadioBox / AtomButton + theme.css); hosts override via --ec-* vars. */
+
+.ec-address {
+  --ec-address-primary: var(--ec-color-primary, #ff5c2a);
+  --ec-address-primary-hover: var(--ec-color-primary-hover, #e64919);
+  --ec-address-border: var(--ec-color-border, #dbdbdb);
+  --ec-address-header-bg: var(--ec-color-surface-muted, #f8f8f8);
+  --ec-address-heading-text: var(--ec-color-heading, #0a0a0a);
+  --ec-address-text: var(--ec-color-text, #5f5f5f);
+  --ec-address-required: var(--ec-color-accent, #57c046);
+  --ec-address-error: var(--ec-color-error, #d23333);
+  --ec-address-error-tooltip: var(--ec-color-error-tooltip, #ff6a6a);
+  --ec-address-surface: var(--ec-color-surface, #ffffff);
+  --ec-address-font-heading: var(--ec-font-heading, 'Montserrat', sans-serif);
+  --ec-address-font-body: var(--ec-font-body, 'Roboto', sans-serif);
+
+  width: 100%;
+  color: var(--ec-address-text);
+  font-family: var(--ec-address-font-body);
+}
+
+[data-ec-theme='dark'] .ec-address {
+  --ec-address-border: var(--ec-color-border, #344054);
+  --ec-address-header-bg: var(--ec-color-surface-muted, #182230);
+  --ec-address-heading-text: var(--ec-color-heading, #f2f4f7);
+  --ec-address-text: var(--ec-color-text, #98a2b3);
+  --ec-address-surface: var(--ec-color-surface, #101828);
+}
+
+/* ── Accordion shell (AtomDetailSection) ─────────────────────────────── */
+
+.ec-address__section {
+  border: 1px solid var(--ec-address-border);
+  border-radius: 3px;
+  width: 100%;
+  background: var(--ec-address-surface);
+}
+
+.ec-address__header {
+  cursor: pointer;
+  font-family: var(--ec-address-font-heading);
+  color: var(--ec-address-heading-text);
+  font-size: 16px;
+  font-weight: 600;
+  background-color: var(--ec-address-header-bg);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  border-bottom: 0 solid var(--ec-address-border);
+}
+
+.ec-address__header[data-expanded='true'] {
+  border-bottom-width: 1px;
+}
+
+.ec-address__title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  color: inherit;
+}
+
+.ec-address__header-meta {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.ec-address__selectedtext {
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.ec-address__chevron {
+  flex: 0 0 auto;
+  color: var(--ec-address-heading-text);
+}
+
+/* ── Body (shipadd) ──────────────────────────────────────────────────── */
+
+.ec-address__body {
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .ec-address__body {
+    padding: 20px;
+  }
+}
+
+/* ── Error toast (msg-alert / ect-bg-error-toast) ────────────────────── */
+
+.ec-address__alert {
+  background-color: var(--ec-address-error);
+  color: #fff;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* ── Saved / selected address boxes (AtomRadioBox) ───────────────────── */
+
+.ec-address__saved {
+  display: block;
+}
+
+.ec-address__radio-box {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  border: 1px solid var(--ec-address-border);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: 1px 5px 10px rgba(0, 0, 0, 0.08);
+  background-color: var(--ec-address-surface);
+  padding: 1rem 1.5rem;
+  min-height: 60px;
+  font-family: var(--ec-address-font-heading);
+  font-size: 13px;
+  color: var(--ec-address-heading-text);
+}
+
+.ec-address__radio-box--clickable {
+  cursor: pointer;
+}
+
+.ec-address__radio-box--clickable:hover {
+  border-color: var(--ec-address-primary);
+}
+
+.ec-address__radio-box-title {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.ec-address__radio-box-detail {
+  margin: 0;
+  font-family: var(--ec-address-font-body);
+  color: var(--ec-address-text);
+  line-height: 1.5;
+}
+
+/* ── Fields (AtomInputCustom + .ectheme-input-box) ───────────────────── */
+
+.ec-address__form,
+.ec-address__search {
+  display: block;
+}
+
+.ec-address__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.ec-address__field {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  position: relative;
+}
+
+.ec-address__field--grow {
+  flex-grow: 1;
+}
+
+.ec-address__field label {
+  font-family: var(--ec-address-font-body);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ec-address-text);
+}
+
+.ec-address__input-wrapper {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+  height: 36px;
+}
+
+.ec-address__input {
+  width: 100%;
+  box-sizing: border-box;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--ec-address-border);
+  background-color: var(--ec-address-surface);
+  font-family: var(--ec-address-font-body);
+  font-size: 13px;
+  color: var(--ec-address-text);
+  border-radius: 4px;
+}
+
+.ec-address__input:focus-visible {
+  outline: none;
+  border-color: var(--ec-address-primary);
+}
+
+.ec-address__input[aria-invalid='true'] {
+  border-color: red;
+}
+
+.ec-address__hint {
+  margin: 0.25rem 0 0;
+  font-size: 12px;
+  color: var(--ec-address-text);
+}
+
+/* Error tooltip (AtomInputCustom .error_tooltip-bottom-right) */
+.ec-address__error-tooltip {
+  position: absolute;
+  top: 90%;
+  right: 0;
+  color: #fff;
+  background-color: var(--ec-address-error-tooltip);
+  font-size: 12px;
+  font-family: var(--ec-address-font-body);
+  padding: 5px 10px;
+  text-align: left;
+  width: auto;
+  z-index: 9;
+  box-sizing: border-box;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+}
+
+.ec-address__error-tooltip::before {
+  content: '';
+  position: absolute;
+  border: 5px solid transparent;
+  bottom: 100%;
+  right: 10px;
+  border-bottom-color: var(--ec-address-error-tooltip);
+}
+
+/* ── Suggestions dropdown ────────────────────────────────────────────── */
+
+.ec-address__suggestions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--ec-address-border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--ec-address-surface);
+}
+
+.ec-address__suggestion {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--ec-address-text);
+  font-family: var(--ec-address-font-body);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ec-address__suggestion:hover:not(:disabled) {
+  background: var(--ec-address-header-bg);
+}
+
+/* ── Actions (shipadd-actions + AtomButton primary) ──────────────────── */
+
+.ec-address__actions {
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ec-address__btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 12px;
+  position: relative;
+  border: 0;
+  border-radius: 3px;
+  font-family: var(--ec-address-font-heading);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--ec-address-primary);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.ec-address__btn-primary:hover,
+.ec-address__btn-primary:focus {
+  background-color: var(--ec-address-primary-hover);
+}
+
+.ec-address__btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ec-address__link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ec-address-primary);
+  font-family: var(--ec-address-font-body);
+  font-size: 12px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* ═══ Catalog composable ═══════════════════════════════════════════════ */
+/* Reproduces the blink catalog page look 1:1 (MoleculeProductBlock /
+   MoleculeSearch / MoleculeProductItem / MoleculePagination); hosts
+   override via the same --ec-color-* tokens as the address composable. */
+
+.ec-catalog {
+  --ec-catalog-primary: var(--ec-color-primary, #ff5c2a);
+  --ec-catalog-primary-hover: var(--ec-color-primary-hover, #e64919);
+  --ec-catalog-accent: var(--ec-color-accent, #57c046);
+  --ec-catalog-border: var(--ec-color-border, #dbdbdb);
+  --ec-catalog-card-border: var(--ec-color-card-border, #ededed);
+  --ec-catalog-header-bg: var(--ec-color-surface-muted, #f8f8f8);
+  --ec-catalog-heading-text: var(--ec-color-heading, #0a0a0a);
+  --ec-catalog-text: var(--ec-color-text, #404040);
+  --ec-catalog-muted: var(--ec-color-text-muted, #acacac);
+  --ec-catalog-error: var(--ec-color-error, #d23333);
+  --ec-catalog-surface: var(--ec-color-surface, #ffffff);
+  --ec-catalog-font-heading: var(--ec-font-heading, 'Montserrat', sans-serif);
+  --ec-catalog-font-body: var(--ec-font-body, 'Open Sans', 'Roboto', sans-serif);
+
+  width: 100%;
+  color: var(--ec-catalog-text);
+  font-family: var(--ec-catalog-font-body);
+}
+
+[data-ec-theme='dark'] .ec-catalog {
+  --ec-catalog-border: var(--ec-color-border, #344054);
+  --ec-catalog-card-border: var(--ec-color-card-border, #344054);
+  --ec-catalog-header-bg: var(--ec-color-surface-muted, #182230);
+  --ec-catalog-heading-text: var(--ec-color-heading, #f2f4f7);
+  --ec-catalog-text: var(--ec-color-text, #98a2b3);
+  --ec-catalog-surface: var(--ec-color-surface, #101828);
+}
+
+/* ── Block header (product-header) ───────────────────────────────────── */
+
+.ec-catalog__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.ec-catalog__header-title {
+  font-family: var(--ec-catalog-font-heading);
+  display: flex;
+  gap: 4px;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ec-catalog__subheading {
+  font-size: 12px;
+  color: var(--ec-catalog-muted);
+}
+
+.ec-catalog__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ec-catalog-heading-text);
+}
+
+/* ── Search bar (MoleculeSearch / .srch-inp) ─────────────────────────── */
+
+.ec-catalog__search {
+  margin: 0.5rem 0 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.ec-catalog__search-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--ec-catalog-border);
+  background-color: var(--ec-catalog-surface);
+  padding: 0 1rem;
+  height: 42px;
+}
+
+.ec-catalog__search-box input {
+  outline: none;
+  border-width: 0;
+  background-color: transparent;
+  color: #757575;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  width: calc(100% - 50px);
+}
+
+.ec-catalog__search-box input[type='search']::-webkit-search-decoration,
+.ec-catalog__search-box input[type='search']::-webkit-search-cancel-button {
+  display: none;
+}
+
+.ec-catalog__search-icon {
+  flex: 0 0 auto;
+  color: var(--ec-catalog-muted);
+}
+
+/* ── Outage alert (kept from the composable contract) ────────────────── */
+
+.ec-catalog__alert {
+  background-color: var(--ec-catalog-error);
+  color: #fff;
+  padding: 1rem;
+  margin: 0 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ec-catalog__retry {
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-family: var(--ec-catalog-font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ── No results (product-not-found) ──────────────────────────────────── */
+
+.ec-catalog__not-found {
+  display: flex;
+  align-items: center;
+  padding: 2rem 5rem;
+}
+
+.ec-catalog__not-found-icon {
+  color: var(--ec-catalog-muted);
+  margin-right: 1rem;
+}
+
+.ec-catalog__not-found-text {
+  font-family: var(--ec-catalog-font-body);
+  color: var(--ec-catalog-text);
+  font-size: 13px;
+}
+
+/* ── Items container (product-item) ──────────────────────────────────── */
+
+.ec-catalog__items {
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+  gap: 1rem;
+  padding: 0 0.5rem;
+}
+
+.ec-catalog__items--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+/* ── Product card (MoleculeProductItem .item) ────────────────────────── */
+
+.ec-catalog__card {
+  padding: 1rem;
+  border: 1px solid var(--ec-catalog-card-border);
+  background-color: var(--ec-catalog-surface);
+  width: 100%;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s ease;
+}
+
+.ec-catalog__card:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Horizontal orientation (.item.horizontal) */
+.ec-catalog__card--horizontal {
+  display: grid;
+  grid-template-areas:
+    'image text text'
+    'image attributes button';
+  grid-template-columns: min-content 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Vertical orientation (.item.vertical) for layout="grid" */
+.ec-catalog__card--grid {
+  display: grid;
+  grid-template-areas:
+    'image'
+    'text'
+    'attributes'
+    'button';
+  justify-items: center;
+  text-align: center;
+}
+
+.ec-catalog__card-image {
+  grid-area: image;
+  padding: 1.5rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+  width: 225px;
+  box-sizing: border-box;
+}
+
+.ec-catalog__card--grid .ec-catalog__card-image {
+  width: auto;
+  padding: 0 0 1.5rem;
+}
+
+.ec-catalog__card-image img {
+  max-height: 120px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.ec-catalog__card-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ec-catalog-header-bg);
+  color: var(--ec-catalog-muted);
+  font-family: var(--ec-catalog-font-heading);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ec-catalog__card-text {
+  grid-area: text;
+  padding: 0 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.ec-catalog__card--grid .ec-catalog__card-text {
+  text-align: center;
+}
+
+/* AtomProductText: Montserrat 16/800 title, Open Sans 12 description */
+.ec-catalog__card-title {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: inherit;
+  cursor: pointer;
+  font-family: var(--ec-catalog-font-heading);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ec-catalog-heading-text);
+}
+
+.ec-catalog__card-title:hover {
+  color: var(--ec-catalog-primary);
+}
+
+.ec-catalog__card-desc {
+  margin: 1rem 0;
+  color: var(--ec-catalog-text);
+  font-family: var(--ec-catalog-font-body);
+  line-height: 17px;
+  font-size: 12px;
+}
+
+/* Attribute fields (item-attributes / AtomFieldAttribute) */
+.ec-catalog__card-attributes {
+  grid-area: attributes;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0 1rem;
+  margin: 1rem 0;
+  width: 100%;
+  min-width: 100px;
+  box-sizing: border-box;
+}
+
+.ec-catalog__card--grid .ec-catalog__card-attributes {
+  justify-content: center;
+}
+
+.ec-catalog__card-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.ec-catalog__card-field-label {
+  font-size: 11px;
+  color: #757575;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.ec-catalog__card-field-value {
+  font-family: var(--ec-catalog-font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ec-catalog-heading-text);
+  white-space: nowrap;
+}
+
+/* Action button area (item-button / AtomButtonMenu .esg-btn-primary) */
+.ec-catalog__card-button {
+  grid-area: button;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ec-catalog__card--grid .ec-catalog__card-button {
+  justify-content: center;
+  margin: 1rem 0 0;
+}
+
+.ec-catalog__btn-primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 10px 16px;
+  font-family: var(--ec-catalog-font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--ec-catalog-primary);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.ec-catalog__btn-primary:hover,
+.ec-catalog__btn-primary:focus {
+  background-color: var(--ec-catalog-primary-hover);
+}
+
+.ec-catalog__not-available {
+  color: var(--ec-catalog-muted);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ── Pagination (MoleculePagination) ─────────────────────────────────── */
+
+.ec-catalog__pagination-wrap {
+  margin-top: 2rem;
+  padding: 0 0.5rem;
+}
+
+.ec-catalog__pagination {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  gap: 0.25rem;
+}
+
+.ec-catalog__page {
+  margin: 0.25rem;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  font-family: var(--ec-catalog-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ec-catalog-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ec-catalog__page:hover:not(:disabled):not(.ec-catalog__page--gap) {
+  background-color: #f5f5f5;
+}
+
+.ec-catalog__page[aria-current='page'] {
+  color: #fff;
+  background-color: var(--ec-catalog-accent);
+  border: 1px solid var(--ec-catalog-accent);
+}
+
+.ec-catalog__page--arrow {
+  color: var(--ec-catalog-muted);
+}
+
+.ec-catalog__page--gap {
+  cursor: default;
+  color: var(--ec-catalog-muted);
+}
+
+.ec-catalog__page:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+/* ── Skeletons (AtomSkeletonLoader) ──────────────────────────────────── */
+
+.ec-catalog__skeleton {
+  background: linear-gradient(90deg, #ededed 25%, #f8f8f8 50%, #ededed 75%);
+  background-size: 200% 100%;
+  animation: ec-catalog-shimmer 1.2s ease-in-out infinite;
+}
+
+.ec-catalog__skeleton--image {
+  width: 100%;
+  height: 100%;
+}
+
+.ec-catalog__skeleton--title {
+  height: 30px;
+  width: 60%;
+  margin-bottom: 8px;
+}
+
+.ec-catalog__skeleton--line {
+  height: 16px;
+  width: 100%;
+  margin: 4px 0;
+}
+
+@keyframes ec-catalog-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ── Responsive (MoleculeProductBlock / MoleculeProductItem queries) ─── */
+
+@media (max-width: 1280px) {
+  .ec-catalog__items {
+    gap: 0.75rem;
+  }
+  .ec-catalog__card-image {
+    height: 140px;
+    padding: 1rem;
+  }
+  .ec-catalog__card--horizontal .ec-catalog__card-image {
+    width: 200px;
+  }
+  .ec-catalog__card-image img {
+    max-height: 110px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ec-catalog__items {
+    gap: 0.5rem;
+  }
+  .ec-catalog__card--horizontal {
+    grid-template-areas:
+      'image text'
+      'image attributes'
+      'image button';
+    grid-template-columns: min-content 1fr;
+  }
+  .ec-catalog__card--horizontal .ec-catalog__card-image {
+    width: 180px;
+  }
+  .ec-catalog__card-attributes {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .ec-catalog__header,
+  .ec-catalog__search,
+  .ec-catalog__items {
+    padding: 0 0.25rem;
+  }
+  .ec-catalog__items {
+    gap: 0.5rem;
+  }
+  .ec-catalog__card {
+    padding: 0.75rem;
+  }
+  .ec-catalog__card--horizontal {
+    grid-template-areas:
+      'image'
+      'text'
+      'attributes'
+      'button';
+    grid-template-columns: 1fr;
+  }
+  .ec-catalog__card--horizontal .ec-catalog__card-image {
+    width: 100%;
+    height: auto;
+    max-height: 180px;
+    padding: 0.75rem;
+  }
+  .ec-catalog__card-image img {
+    max-height: 100px;
+  }
+  .ec-catalog__card-text {
+    text-align: center;
+  }
+  .ec-catalog__card-attributes {
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .ec-catalog__card-button {
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+  }
+}
