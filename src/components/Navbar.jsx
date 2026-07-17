@@ -13,7 +13,7 @@ export default function Navbar({ onLogout }) {
   const location = useLocation()
   const cart = useCart()
   const [showMenu, setShowMenu] = useState(false)
-  const cartCount = cart.lines.reduce((total, line) => total + line.quantity, 0)
+  const cartCount = cart.itemCount
 
   useEffect(() => {
     setShowMenu(false)

@@ -1,45 +1,43 @@
 import { createContext, useContext, useMemo, useState } from 'react'
 
+// The cart itself lives in Salesforce (the active quote) and is rendered by
+// the composable CartPanel. The host only tracks the active quote id and a
+// line-item count for the navbar badge, fed by the panels' callbacks.
+
+const QUOTE_KEY = 'activeQuoteId'
 const CartContext = createContext(null)
 
 export function CartProvider({ children }) {
-  const [lines, setLines] = useState([]) // [{ product, quantity }]
+  const [quoteId, setQuoteIdState] = useState(
+    () => localStorage.getItem(QUOTE_KEY) || null,
+  )
+  const [itemCount, setItemCount] = useState(0)
 
   const value = useMemo(() => {
-    const add = (product, quantity = 1) =>
-      setLines((prev) => {
-        const existing = prev.find((line) => line.product.id === product.id)
-        if (existing) {
-          return prev.map((line) =>
-            line.product.id === product.id
-              ? { ...line, quantity: line.quantity + quantity }
-              : line,
-          )
-        }
-        return [...prev, { product, quantity }]
-      })
+    const setQuoteId = (id) => {
+      if (id) localStorage.setItem(QUOTE_KEY, id)
+      else localStorage.removeItem(QUOTE_KEY)
+      setQuoteIdState(id || null)
+    }
 
-    const setQuantity = (productId, quantity) =>
-      setLines((prev) =>
-        quantity <= 0
-          ? prev.filter((line) => line.product.id !== productId)
-          : prev.map((line) =>
-              line.product.id === productId ? { ...line, quantity } : line,
-            ),
-      )
+    // Sync from the composable CartDTO (CartPanel onCartChange).
+    const syncFromCart = (cart) => {
+      if (!cart) return
+      if (cart.id) setQuoteId(cart.id)
+      setItemCount(cart.lines.reduce((sum, line) => sum + line.quantity, 0))
+    }
 
-    const remove = (productId) =>
-      setLines((prev) => prev.filter((line) => line.product.id !== productId))
-    const clear = () => setLines([])
+    // Optimistic badge bump for catalog add-to-cart (CatalogPanel onAddedToCart
+    // only carries the quote id, not the full cart).
+    const bump = (quantity = 1) => setItemCount((count) => count + quantity)
 
-    const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0)
-    const total = lines.reduce(
-      (sum, line) => sum + line.product.price * line.quantity,
-      0,
-    )
+    const clear = () => {
+      setQuoteId(null)
+      setItemCount(0)
+    }
 
-    return { lines, add, setQuantity, remove, clear, itemCount, total }
-  }, [lines])
+    return { quoteId, setQuoteId, itemCount, syncFromCart, bump, clear }
+  }, [quoteId, itemCount])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
