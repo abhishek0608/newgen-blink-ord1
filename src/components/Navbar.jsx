@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
+import { useCart } from '../cart/CartContext.jsx'
 import Logo from './Logo.jsx'
 
 const links = [
@@ -10,7 +11,9 @@ const links = [
 export default function Navbar({ onLogout }) {
   const navigate = useNavigate()
   const location = useLocation()
+  const cart = useCart()
   const [showMenu, setShowMenu] = useState(false)
+  const cartCount = cart.lines.reduce((total, line) => total + line.quantity, 0)
 
   useEffect(() => {
     setShowMenu(false)
@@ -33,14 +36,20 @@ export default function Navbar({ onLogout }) {
       <div className="nav-collapse">
         <ul className="nav-left">
           {links.map(({ to, label }) => (
-            <li key={to}>
-              <NavLink
-                to={to}
-                end={to === '/'}
-                className={({ isActive }) => (isActive ? 'active' : '')}
-              >
-                {label}
-              </NavLink>
+            <li key={to ?? label}>
+              {to ? (
+                <NavLink
+                  to={to}
+                  end={to === '/'}
+                  className={({ isActive }) => (isActive ? 'active' : '')}
+                >
+                  {label}
+                </NavLink>
+              ) : (
+                <a href="#" onClick={(event) => event.preventDefault()}>
+                  {label}
+                </a>
+              )}
             </li>
           ))}
         </ul>
@@ -69,6 +78,7 @@ export default function Navbar({ onLogout }) {
           <li className="nav-icon-item">
             <Link to="/cart" className="nav-icon-link" aria-label="Cart">
               <span className="material-symbols-outlined">shopping_cart</span>
+              {cartCount > 0 && <span className="nav-icon-badge">{cartCount}</span>}
             </Link>
           </li>
           <li className="nav-icon-item">
@@ -125,6 +135,11 @@ export default function Navbar({ onLogout }) {
                 </div>
               </div>
             </div>
+          </li>
+          <li className="nav-icon-item nav-menu-item">
+            <button className="nav-menu-button" type="button" aria-label="Menu">
+              <span className="material-symbols-outlined">menu</span>
+            </button>
           </li>
         </ul>
       </div>
