@@ -12,13 +12,6 @@ dist
 dist-ssr
 *.local
 
-# Vendored built package — must be committed so CI/Vercel can build
-# without the out-of-repo local dependency. Re-included despite `dist` above.
-!vendor/next-gen-composable/dist
-!vendor/next-gen-composable/dist/**
-!vendor/composable-cart/dist
-!vendor/composable-cart/dist/**
-
 # Environment files (secrets — never commit)
 .env
 .env.*

@@ -1,12 +1,10 @@
 // Shared Salesforce session for the whole app — ONE token fetch, reused by
-// every page and composable. The gateway (/api/salesforce/token) vends the
-// Connected App's { accessToken, baseUrl, expiresAt }; everything else calls
-// Salesforce directly with it.
+// every page. The gateway (/api/salesforce/token) vends the Connected App's
+// { accessToken, baseUrl, expiresAt }; everything else calls Salesforce
+// directly with it.
 //
-//   import { tokenProvider, getBaseUrl, soql } from './sfSession'
-//
-//   const service = createSalesforceCatalogService({ baseUrl: getBaseUrl, tokenProvider })
-//   const result  = await soql('SELECT Id FROM Account LIMIT 5')   // host pages
+//   import { soql } from './sfSession'
+//   const result = await soql('SELECT Id FROM Account LIMIT 5')
 
 const API_VERSION = 'v62.0'
 
@@ -34,10 +32,6 @@ export function getSession() {
     return session
   })
 }
-
-export const tokenProvider = async () => (await getSession()).accessToken
-
-export const getBaseUrl = async () => (await getSession()).baseUrl
 
 /** Direct SOQL against Salesforce (token + baseUrl handled invisibly). */
 export async function soql(query) {

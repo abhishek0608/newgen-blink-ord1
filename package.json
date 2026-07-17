@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@expedite-commerce/composable-cart": "file:./vendor/composable-cart",
-    "@expedite-commerce/next-gen-composable": "file:./vendor/next-gen-composable",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-router-dom": "^7.18.1"

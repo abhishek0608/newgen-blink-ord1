@@ -1,42 +1,45 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { APP_CONTEXT } from '../lib/appContext'
-import { cartService, addProduct, clearCart } from './localCartService'
+import { createContext, useContext, useMemo, useState } from 'react'
 
-// Host-owned cart, per the composable contract. The cart itself lives in
-// localCartService (the host's "server"); this context just mirrors the
-// latest server-confirmed CartDTO so Navbar/Checkout can read it, and lets
-// the catalog composable's onAddToCart write into it. The cart page renders
-// <CartPanel> against the same service and reports back via onCartChange.
 const CartContext = createContext(null)
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState(null) // CartDTO | null
-
-  useEffect(() => {
-    let alive = true
-    cartService.getCart(APP_CONTEXT).then((result) => {
-      if (alive && result.cart) setCart(result.cart)
-    })
-    return () => {
-      alive = false
-    }
-  }, [])
+  const [lines, setLines] = useState([]) // [{ product, quantity }]
 
   const value = useMemo(() => {
-    const lines = cart?.lines ?? []
-    return {
-      cart,
-      service: cartService,
-      context: APP_CONTEXT,
-      // CartPanel's onCartChange — keeps this mirror in sync with the panel.
-      sync: setCart,
-      add: (product, quantity = 1) => setCart(addProduct(product, quantity)),
-      clear: () => setCart(clearCart()),
-      lines,
-      itemCount: lines.reduce((sum, line) => sum + line.quantity, 0),
-      totals: cart?.totals ?? { subtotal: 0, discount: 0, tax: 0, total: 0 },
-    }
-  }, [cart])
+    const add = (product, quantity = 1) =>
+      setLines((prev) => {
+        const existing = prev.find((line) => line.product.id === product.id)
+        if (existing) {
+          return prev.map((line) =>
+            line.product.id === product.id
+              ? { ...line, quantity: line.quantity + quantity }
+              : line,
+          )
+        }
+        return [...prev, { product, quantity }]
+      })
+
+    const setQuantity = (productId, quantity) =>
+      setLines((prev) =>
+        quantity <= 0
+          ? prev.filter((line) => line.product.id !== productId)
+          : prev.map((line) =>
+              line.product.id === productId ? { ...line, quantity } : line,
+            ),
+      )
+
+    const remove = (productId) =>
+      setLines((prev) => prev.filter((line) => line.product.id !== productId))
+    const clear = () => setLines([])
+
+    const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0)
+    const total = lines.reduce(
+      (sum, line) => sum + line.product.price * line.quantity,
+      0,
+    )
+
+    return { lines, add, setQuantity, remove, clear, itemCount, total }
+  }, [lines])
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }

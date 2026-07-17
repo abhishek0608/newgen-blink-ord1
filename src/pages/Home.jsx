@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { soql } from '../lib/sfSession'
 
-// Host page calling Salesforce directly: one shared token (sfSession), then
-// plain SOQL — no composable involved.
 export default function Home() {
   const [stats, setStats] = useState(null)
   const [error, setError] = useState(null)
