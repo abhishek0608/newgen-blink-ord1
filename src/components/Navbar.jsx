@@ -8,6 +8,7 @@ const links = [
   { to: '/products/basic', label: 'BASIC' },
   { to: '/products', label: 'UI CHANGE' },
   { to: '/products/headless', label: 'HEADLESS' },
+  { to: '/products/github', label: 'GITHUB SOURCE' },
 ]
 
 export default function Navbar({ onLogout }) {
