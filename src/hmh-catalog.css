@@ -1,35 +1,62 @@
 /* ==========================================================================
-   Bundles page — tier/pricing cards (Silver / Platinum / Gold) with a hero,
-   wave feature band, upfront+monthly pricing split, and Configure CTA.
-   Rendered by src/pages/ProductsBundles.jsx.
+   HMH Catalog page — tier/pricing cards (Silver / Platinum / Gold) with a
+   hero, wave feature band, upfront+monthly pricing split, and Configure CTA.
+   Rendered by src/pages/ProductsHmhCatalog.jsx.
    ========================================================================== */
 
-.bundles-page {
-  --bundle-blue: #2e8fd4;
-  --bundle-navy: #14547f;
-  --bundle-heading: #1b2a41;
-  --bundle-border: #e6e8eb;
+.hmh-catalog-page {
+  --hmh-blue: #2e8fd4;
+  --hmh-navy: #14547f;
+  --hmh-heading: #1b2a41;
+  --hmh-border: #e6e8eb;
   max-width: 1440px;
   margin: 0 auto;
   padding: 28px 32px 56px;
   font-family: 'Montserrat', sans-serif;
 }
 
-.bundles-page__note {
+.hmh-catalog-page__note {
   margin: 0 0 20px;
   color: #8a94a3;
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
 }
 
-.bundles-grid {
+.hmh-catalog-page__banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 20px;
+  padding: 12px 16px;
+  border: 1px solid #f3c2c2;
+  border-radius: 8px;
+  background: #fdf1f1;
+  color: #9c3535;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+.hmh-catalog-page__banner button {
+  padding: 6px 14px;
+  border: 1px solid #9c3535;
+  border-radius: 6px;
+  background: transparent;
+  color: #9c3535;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.hmh-catalog-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 28px;
 }
 
 @media (max-width: 1024px) {
-  .bundles-grid {
+  .hmh-catalog-grid {
     grid-template-columns: 1fr;
     max-width: 460px;
     margin: 0 auto;
@@ -37,19 +64,19 @@
 }
 
 /* ── Card shell ──────────────────────────────────────────────────────────── */
-.bundle-card {
+.hmh-card {
   position: relative;
   display: flex;
   flex-direction: column;
   background: #fff;
-  border: 1px solid var(--bundle-border);
+  border: 1px solid var(--hmh-border);
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(15, 39, 64, 0.06);
   overflow: hidden;
 }
 
 /* ── POPULAR ribbon ──────────────────────────────────────────────────────── */
-.bundle-card__ribbon {
+.hmh-card__ribbon {
   position: absolute;
   top: 22px;
   left: -34px;
@@ -68,7 +95,7 @@
 }
 
 /* ── Hero: tier pill + product art ───────────────────────────────────────── */
-.bundle-card__hero {
+.hmh-card__hero {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,7 +104,7 @@
   background: linear-gradient(180deg, #fdfefe 0%, #f2f7fa 100%);
 }
 
-.bundle-card__tier {
+.hmh-card__tier {
   padding: 6px 22px;
   border-radius: 999px;
   background: #e9edf1;
@@ -88,32 +115,32 @@
   text-transform: uppercase;
 }
 
-.bundle-card__tier--gold {
+.hmh-card__tier--gold {
   background: #e8b64c;
   color: #5c4308;
 }
 
-.bundle-card__art {
+.hmh-card__art {
   width: 118px;
   height: auto;
   filter: drop-shadow(0 8px 10px rgba(15, 39, 64, 0.14));
 }
 
 /* ── Wave band with feature icons ────────────────────────────────────────── */
-.bundle-card__wave-band {
-  background: var(--bundle-blue);
+.hmh-card__wave-band {
+  background: var(--hmh-blue);
   color: #fff;
 }
 
-.bundle-card__wave {
+.hmh-card__wave {
   display: block;
   width: 100%;
   height: 26px;
   margin-top: -25px;
-  color: var(--bundle-blue);
+  color: var(--hmh-blue);
 }
 
-.bundle-card__features {
+.hmh-card__features {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -123,7 +150,7 @@
   list-style: none;
 }
 
-.bundle-card__feature {
+.hmh-card__feature {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -131,21 +158,21 @@
   width: 92px;
 }
 
-.bundle-card__feature-icon {
+.hmh-card__feature-icon {
   display: grid;
   place-items: center;
   width: 46px;
   height: 46px;
   border-radius: 50%;
   background: #fff;
-  color: var(--bundle-blue);
+  color: var(--hmh-blue);
 }
 
-.bundle-card__feature-icon .material-symbols-outlined {
+.hmh-card__feature-icon .material-symbols-outlined {
   font-size: 24px;
 }
 
-.bundle-card__feature-label {
+.hmh-card__feature-label {
   font-size: 11px;
   font-weight: 500;
   line-height: 1.35;
@@ -153,23 +180,23 @@
 }
 
 /* ── Body ────────────────────────────────────────────────────────────────── */
-.bundle-card__body {
+.hmh-card__body {
   display: flex;
   flex-direction: column;
   flex: 1;
   padding: 24px 24px 26px;
 }
 
-.bundle-card__name {
+.hmh-card__name {
   margin: 0 0 14px;
-  color: var(--bundle-heading);
+  color: var(--hmh-heading);
   font-size: 19px;
   font-weight: 600;
   line-height: 1.35;
   text-align: center;
 }
 
-.bundle-card__tags {
+.hmh-card__tags {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -179,7 +206,7 @@
   list-style: none;
 }
 
-.bundle-card__tag {
+.hmh-card__tag {
   padding: 4px 14px;
   border-radius: 999px;
   background: #e9eef4;
@@ -189,18 +216,18 @@
 }
 
 /* ── Pricing split ───────────────────────────────────────────────────────── */
-.bundle-card__pricing {
+.hmh-card__pricing {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin: 0 auto 18px;
   width: 100%;
   max-width: 360px;
-  border: 1px solid var(--bundle-border);
+  border: 1px solid var(--hmh-border);
   border-radius: 8px;
   overflow: hidden;
 }
 
-.bundle-card__price-col {
+.hmh-card__price-col {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -208,11 +235,11 @@
   padding: 14px 10px;
 }
 
-.bundle-card__price-col + .bundle-card__price-col {
-  border-left: 1px solid var(--bundle-border);
+.hmh-card__price-col + .hmh-card__price-col {
+  border-left: 1px solid var(--hmh-border);
 }
 
-.bundle-card__price-label {
+.hmh-card__price-label {
   color: #8a94a3;
   font-size: 11px;
   font-weight: 600;
@@ -220,19 +247,19 @@
   text-transform: uppercase;
 }
 
-.bundle-card__price-value {
-  color: var(--bundle-heading);
+.hmh-card__price-value {
+  color: var(--hmh-heading);
   font-size: 24px;
   font-weight: 700;
 }
 
-.bundle-card__price-value sup {
+.hmh-card__price-value sup {
   font-size: 13px;
   font-weight: 600;
 }
 
 /* ── Includes list ───────────────────────────────────────────────────────── */
-.bundle-card__includes {
+.hmh-card__includes {
   flex: 1;
   margin: 0 0 20px;
   padding-left: 22px;
@@ -241,13 +268,45 @@
   line-height: 2;
 }
 
+/* ── Loading skeleton ────────────────────────────────────────────────────── */
+.hmh-card--skeleton .hmh-card__hero {
+  padding-bottom: 26px;
+}
+
+.hmh-skeleton {
+  border-radius: 8px;
+  background: linear-gradient(90deg, #eef1f4 25%, #f7f9fa 50%, #eef1f4 75%);
+  background-size: 200% 100%;
+  animation: hmh-shimmer 1.4s ease-in-out infinite;
+}
+
+.hmh-skeleton--title {
+  height: 26px;
+  margin: 0 auto 18px;
+  width: 75%;
+}
+
+.hmh-skeleton--block {
+  height: 120px;
+  margin-bottom: 18px;
+}
+
+.hmh-skeleton--cta {
+  height: 46px;
+}
+
+@keyframes hmh-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* ── CTA ─────────────────────────────────────────────────────────────────── */
-.bundle-card__configure {
+.hmh-card__configure {
   width: 100%;
   padding: 14px;
   border: 0;
   border-radius: 6px;
-  background: var(--bundle-navy);
+  background: var(--hmh-navy);
   color: #fff;
   font-family: inherit;
   font-size: 14px;
@@ -258,6 +317,17 @@
   transition: background 0.15s;
 }
 
-.bundle-card__configure:hover {
+.hmh-card__configure:hover:not(:disabled) {
   background: #0e3f60;
+}
+
+.hmh-card__configure:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.hmh-card__hero img.hmh-card__art {
+  max-width: 118px;
+  max-height: 130px;
+  object-fit: contain;
 }

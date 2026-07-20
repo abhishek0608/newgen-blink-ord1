@@ -7,7 +7,7 @@ import './index.css'
 import './theme.css'
 import './catalog.css'
 import './headless.css'
-import './bundles.css'
+import './hmh-catalog.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

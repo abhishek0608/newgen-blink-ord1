@@ -9,7 +9,7 @@ const links = [
   { to: '/products', label: 'UI CHANGE' },
   { to: '/products/headless', label: 'HEADLESS' },
   { to: '/products/github', label: 'GITHUB SOURCE' },
-  { to: '/products/bundles', label: 'BUNDLES' },
+  { to: '/products/hmh-catalog', label: 'HMH CATALOG' },
 ]
 
 export default function Navbar({ onLogout }) {
