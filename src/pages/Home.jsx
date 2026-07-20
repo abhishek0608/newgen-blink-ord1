@@ -1,4 +1,4 @@
-import Catalog from '../components/Catalog.jsx'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
   return (
@@ -12,9 +12,9 @@ export default function Home() {
             flow built for fast B2B buying.
           </p>
           <div className="home-actions">
-            <a href="#catalog" className="home-primary-link">
+            <Link to="/products" className="home-primary-link">
               Browse catalog
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -30,10 +30,6 @@ export default function Home() {
             alt="Customer completing a digital purchase"
           />
         </div>
-      </section>
-
-      <section id="catalog" className="home-catalog" aria-label="Product catalog">
-        <Catalog title="Products" pageSize={12} />
       </section>
     </main>
   )

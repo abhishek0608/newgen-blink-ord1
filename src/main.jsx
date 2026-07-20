@@ -5,6 +5,8 @@ import App from './App.jsx'
 import '@nextgen-composable/next-gen-composable/styles.css'
 import './index.css'
 import './theme.css'
+import './catalog.css'
+import './headless.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

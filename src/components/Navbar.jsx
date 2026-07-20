@@ -5,7 +5,9 @@ import Logo from './Logo.jsx'
 
 const links = [
   { to: '/', label: 'HOME' },
-  { to: '/products', label: 'PRODUCTS' },
+  { to: '/products/basic', label: 'BASIC' },
+  { to: '/products', label: 'UI CHANGE' },
+  { to: '/products/headless', label: 'HEADLESS' },
 ]
 
 export default function Navbar({ onLogout }) {
@@ -40,7 +42,7 @@ export default function Navbar({ onLogout }) {
               {to ? (
                 <NavLink
                   to={to}
-                  end={to === '/'}
+                  end={to === '/' || to === '/products'}
                   className={({ isActive }) => (isActive ? 'active' : '')}
                 >
                   {label}

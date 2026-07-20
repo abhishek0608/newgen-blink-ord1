@@ -5,7 +5,22 @@ import { useCart } from '../cart/CartContext'
 
 // Salesforce-direct catalog: search/listing and add-to-cart come from the
 // composable; the host only persists the quote id it hands back.
-export default function Catalog({ title = 'Products', pageSize = 12 }) {
+// Card layout matching the HMHConnect reference: horizontal cards showing
+// Part No. + Price columns and an availability pill (from the panel's built-in
+// stock flag). See catalog.css for the visual styling.
+const CATALOG_CONFIG = {
+  layout: 'horizontal',
+  showAvailability: true,
+  cardFields: [
+    { field: 'sku', label: 'Part No.' },
+    { field: 'price', label: 'Price' },
+  ],
+}
+
+// `themed` picks the "UI Change" look: the config-as-code card fields plus the
+// `.catalog-themed` scope that catalog.css hangs its palette/overrides off. Left
+// off (the "Basic" demo), the panel renders with packaged defaults and styling.
+export default function Catalog({ title = 'Products', pageSize = 12, themed = false }) {
   const cart = useCart()
   const { context, error } = useRuntimeContext(cart.quoteId)
 
@@ -16,10 +31,11 @@ export default function Catalog({ title = 'Products', pageSize = 12 }) {
     return <p className="home-loading">Connecting to Salesforce...</p>
   }
 
-  return (
+  const panel = (
     <CatalogPanel
       context={context}
       userType={USER_TYPE}
+      config={themed ? CATALOG_CONFIG : undefined}
       title={title}
       pageSize={pageSize}
       onAddToCart={(product, quantity) => cart.bump(quantity)}
@@ -28,4 +44,6 @@ export default function Catalog({ title = 'Products', pageSize = 12 }) {
       }}
     />
   )
+
+  return themed ? <div className="catalog-themed">{panel}</div> : panel
 }
