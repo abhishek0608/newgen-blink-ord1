@@ -9,6 +9,7 @@ const links = [
   { to: '/products', label: 'UI CHANGE' },
   { to: '/products/headless', label: 'HEADLESS' },
   { to: '/products/github', label: 'GITHUB SOURCE' },
+  { to: '/products/bundles', label: 'BUNDLES' },
 ]
 
 export default function Navbar({ onLogout }) {

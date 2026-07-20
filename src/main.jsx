@@ -7,6 +7,7 @@ import './index.css'
 import './theme.css'
 import './catalog.css'
 import './headless.css'
+import './bundles.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
