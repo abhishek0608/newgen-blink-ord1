@@ -25,6 +25,17 @@ export default function Products() {
       </div>
 
       <div className="catalog-main">
+        <p
+          style={{
+            margin: '0 0 20px',
+            color: '#8a94a3',
+            fontFamily: 'Roboto, sans-serif',
+            fontSize: 13,
+          }}
+        >
+          UI Change — the same <code>CatalogPanel</code>, themed with host style
+          overrides.
+        </p>
         <Catalog title="All Products" pageSize={12} themed />
       </div>
     </div>

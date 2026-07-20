@@ -68,6 +68,17 @@ function HeadlessCatalog({ context, cart }) {
 
   return (
     <div className="hl">
+      <p
+        style={{
+          margin: '0 0 20px',
+          color: '#8a94a3',
+          fontFamily: 'Roboto, sans-serif',
+          fontSize: 13,
+        }}
+      >
+        Headless — the composable supplies data + logic only; this UI is
+        host-owned.
+      </p>
       <header className="hl__toolbar">
         <div className="hl__toolbar-titles">
           <h1 className="hl__title">Headless Catalog</h1>

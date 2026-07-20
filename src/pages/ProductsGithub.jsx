@@ -28,6 +28,17 @@ export default function ProductsGithub() {
       </div>
 
       <div className="catalog-main">
+        <p
+          style={{
+            margin: '0 0 20px',
+            color: '#8a94a3',
+            fontFamily: 'Roboto, sans-serif',
+            fontSize: 13,
+          }}
+        >
+          GitHub Source — same catalog, <code>CatalogPanel</code> imported from
+          the GitHub package.
+        </p>
         <CatalogGithub title="All Products (GitHub Source)" pageSize={12} themed />
       </div>
     </div>
