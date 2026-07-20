@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   useCatalogController,
   createSalesforceCatalogService,
@@ -8,45 +8,14 @@ import {
 import { useRuntimeContext } from '../hooks/useRuntimeContext'
 import { USER_TYPE } from '../lib/appContext'
 import { useCart } from '../cart/CartContext'
+import { HMH_CATALOG_CONFIG } from '../lib/hmhCatalogConfig'
 
-// HMH Catalog — composable-driven tier cards. Product data (name, price,
-// stock) and add-to-cart come from the composable (useCatalogController +
-// Salesforce services); the host only owns the merchandising overlay below
-// (tier names, feature icons, includes list) and the card visuals in
-// hmh-catalog.css. Configure = controller.addToCart on the shared quote.
+// HMH Catalog — config-as-code over the headless composable. All knobs live
+// in lib/hmhCatalogConfig.js: the `data` section drives the composable's
+// Salesforce calls (sort/query/category/page size), the `card` section picks
+// which DTO fields and merchandising decorations each card renders.
 
-const FEATURES = {
-  pitcher: { icon: 'ac_unit', label: 'Pitcher Fits Most Fridge Doors' },
-  drinking: { icon: 'water_drop', label: 'Filtered Drinking Water' },
-  bathing: { icon: 'shower', label: 'Cleaner Water For Bathing' },
-}
-
-const TAGS = ['Chlorine', 'VOCs', 'Lead', 'PFAS']
-
-// Presentation-only tier decoration, zipped in order onto the first three
-// products the composable returns. Monthly is a 12-month split of the real
-// Salesforce price.
-const TIERS = [
-  {
-    id: 'silver',
-    tier: 'Silver',
-    features: [FEATURES.pitcher, FEATURES.drinking],
-    includes: ['1 Countertop', '1 Pitcher'],
-  },
-  {
-    id: 'platinum',
-    tier: 'Platinum',
-    popular: true,
-    features: [FEATURES.pitcher, FEATURES.drinking, FEATURES.bathing],
-    includes: ['1 Countertop', '1 Pitcher', '2 Shower Filters'],
-  },
-  {
-    id: 'gold',
-    tier: 'Gold',
-    features: [FEATURES.pitcher, FEATURES.drinking, FEATURES.bathing],
-    includes: ['1 Countertop', '1 Pitcher', '1 Shower Filter'],
-  },
-]
+const SKELETON_COUNT = 6
 
 function PitcherArt() {
   return (
@@ -93,19 +62,31 @@ function PitcherArt() {
   )
 }
 
-function TierCard({ tier, product, busy, onConfigure }) {
-  const monthly = product.price != null ? product.price / 12 : null
+function TierCard({ tier, product, popular, busy, cardConfig, onConfigure }) {
+  const { titleField, subtitleField, tags, showMonthly, monthlyTermMonths } =
+    cardConfig
+  // Broken/missing product images fall back to the pitcher illustration.
+  const [imageFailed, setImageFailed] = useState(false)
+  const monthly =
+    showMonthly && product.price != null
+      ? product.price / monthlyTermMonths
+      : null
 
   return (
-    <article className={`hmh-card${tier.popular ? ' hmh-card--popular' : ''}`}>
-      {tier.popular ? <span className="hmh-card__ribbon">Popular</span> : null}
+    <article className={`hmh-card${popular ? ' hmh-card--popular' : ''}`}>
+      {popular ? <span className="hmh-card__ribbon">Popular</span> : null}
 
       <div className="hmh-card__hero">
         <span className={`hmh-card__tier hmh-card__tier--${tier.id}`}>
           {tier.tier}
         </span>
-        {product.imageUrl ? (
-          <img className="hmh-card__art" src={product.imageUrl} alt="" />
+        {product.imageUrl && !imageFailed ? (
+          <img
+            className="hmh-card__art"
+            src={product.imageUrl}
+            alt=""
+            onError={() => setImageFailed(true)}
+          />
         ) : (
           <PitcherArt />
         )}
@@ -136,10 +117,13 @@ function TierCard({ tier, product, busy, onConfigure }) {
       </div>
 
       <div className="hmh-card__body">
-        <h2 className="hmh-card__name">{product.name}</h2>
+        <h2 className="hmh-card__name">{product[titleField]}</h2>
+        {subtitleField && product[subtitleField] ? (
+          <p className="hmh-card__subtitle">{product[subtitleField]}</p>
+        ) : null}
 
         <ul className="hmh-card__tags">
-          {TAGS.map((tag) => (
+          {tags.map((tag) => (
             <li key={tag} className="hmh-card__tag">
               {tag}
             </li>
@@ -153,13 +137,15 @@ function TierCard({ tier, product, busy, onConfigure }) {
               {formatPrice(product.price, product.currency)}
             </span>
           </div>
-          <div className="hmh-card__price-col">
-            <span className="hmh-card__price-label">Monthly</span>
-            <span className="hmh-card__price-value">
-              {monthly != null ? formatPrice(monthly, product.currency) : '—'}
-              <sup>+</sup>
-            </span>
-          </div>
+          {monthly != null ? (
+            <div className="hmh-card__price-col">
+              <span className="hmh-card__price-label">Monthly</span>
+              <span className="hmh-card__price-value">
+                {formatPrice(monthly, product.currency)}
+                <sup>+</sup>
+              </span>
+            </div>
+          ) : null}
         </div>
 
         <ul className="hmh-card__includes">
@@ -199,31 +185,42 @@ function TierCardSkeleton({ tier }) {
   )
 }
 
-function HmhCatalog({ context, cart }) {
+function HmhCatalog({ context, cart, config }) {
   const service = useMemo(() => createSalesforceCatalogService(), [])
   const cartService = useMemo(() => createSalesforceCartService(), [])
+  const { data, card } = config
 
   const { state, controller } = useCatalogController({
     service,
     cartService,
     userType: USER_TYPE,
     context,
-    pageSize: TIERS.length,
-    loadCategories: false,
+    pageSize: data.pageSize,
+    loadCategories: data.loadCategories,
     onAddToCart: (_product, quantity) => cart.bump(quantity),
     onAddedToCart: (result) => {
       if (result.quoteId) cart.setQuoteId(result.quoteId)
     },
   })
 
+  // Push the config's search parameters into the controller — each one
+  // re-runs the Salesforce search with the new server-side params.
+  useEffect(() => {
+    if (data.sort && data.sort !== 'relevance') controller.setSort(data.sort)
+    if (data.query) controller.setQuery(data.query)
+    if (data.categoryId) controller.setCategory(data.categoryId)
+  }, [controller, data.sort, data.query, data.categoryId])
+
   const loading = state.loading && state.products.length === 0
-  const cards = TIERS.map((tier, i) => ({ tier, product: state.products[i] }))
+  const empty =
+    state.loaded && !state.loading && state.products.length === 0 && !state.degraded
 
   return (
     <div className="hmh-catalog-page">
       <p className="hmh-catalog-page__note">
-        HMH Catalog — product data + add-to-cart from the composable
-        (<code>useCatalogController</code>); tier presentation is host-owned.
+        HMH Catalog — <code>HMH_CATALOG_CONFIG.data</code> drives the
+        composable&apos;s Salesforce calls (sort, query, page size);
+        <code>.card</code> picks what each card displays.
       </p>
 
       {state.errorMessage ? (
@@ -240,21 +237,58 @@ function HmhCatalog({ context, cart }) {
         <div className="hmh-catalog-page__banner">{state.cartError}</div>
       ) : null}
 
-      <div className="hmh-catalog-grid">
-        {cards.map(({ tier, product }) =>
-          loading || !product ? (
-            <TierCardSkeleton key={tier.id} tier={tier} />
-          ) : (
-            <TierCard
-              key={tier.id}
-              tier={tier}
-              product={product}
-              busy={state.addingToCartId === product.id}
-              onConfigure={() => controller.addToCart(product.id, 1)}
-            />
-          ),
-        )}
+      <div className="hmh-catalog-page__count">
+        {state.loaded
+          ? `${state.totalCount} products · sorted by ${state.sort}`
+          : 'Loading…'}
       </div>
+
+      <div className="hmh-catalog-grid">
+        {loading
+          ? Array.from({ length: SKELETON_COUNT }, (_, i) => (
+              <TierCardSkeleton
+                key={`sk-${i}`}
+                tier={card.tiers[i % card.tiers.length]}
+              />
+            ))
+          : state.products.map((product, i) => (
+              <TierCard
+                key={product.id}
+                tier={card.tiers[i % card.tiers.length]}
+                product={product}
+                popular={i === card.popularIndex}
+                busy={state.addingToCartId === product.id}
+                cardConfig={card}
+                onConfigure={() => controller.addToCart(product.id, 1)}
+              />
+            ))}
+      </div>
+
+      {empty ? (
+        <p className="hmh-catalog-page__note">No products found.</p>
+      ) : null}
+
+      {state.pageCount > 1 ? (
+        <nav className="hmh-catalog-page__pager" aria-label="Pagination">
+          <button
+            type="button"
+            disabled={state.page <= 1}
+            onClick={() => controller.setPage(state.page - 1)}
+          >
+            Previous
+          </button>
+          <span>
+            Page {state.page} of {state.pageCount}
+          </span>
+          <button
+            type="button"
+            disabled={state.page >= state.pageCount}
+            onClick={() => controller.setPage(state.page + 1)}
+          >
+            Next
+          </button>
+        </nav>
+      ) : null}
     </div>
   )
 }
@@ -281,5 +315,5 @@ export default function ProductsHmhCatalog() {
   }
   // Child mounts only with a resolved context — the controller is created
   // once per mount and needs a non-null context.
-  return <HmhCatalog context={context} cart={cart} />
+  return <HmhCatalog context={context} cart={cart} config={HMH_CATALOG_CONFIG} />
 }
